@@ -16,8 +16,8 @@ class Account:
         self.name=name
         self.phone=phone
         self.balance=0
-        #self.loan=loan
-        #self.loan_limit=500
+        self.loan=0
+        self.loan_limit=500
 
     def deposit(self,amount):
         if amount<=0:
@@ -36,17 +36,10 @@ class Account:
             self.balance-=amount
             return f" Dear {self.name}, you have withdrawn {amount} ,your balance is KES{self.balance}"
 
-    def borrow(self,loan):
-        limit=15000
-        amount=loan +self.balance
-
-        if loan >limit:
-              return "You have exceeded your loan limit of {}.Please borrow a lower amount".format(limit)
-        elif loan<=limit and self.balance<0:
-               return "You have an existing loan.Kindly pay in order to borrow again"
-        elif loan<=limit and self.balance>0:
-              loan_balance=loan+15/100*loan
-              return "You have been loaned {} successfully.Your new account balance is {}.You new loan balance is KES {}".format(loan,amount,loan_balance)
+    def borrow(self,amount):
+        if amount<=self.loan_limit:
+            self.loan+=amount
+            self.balance+=self.loan
+            return f"Dear {self.name}, you have borrowed KES{amount}.Your loan of {self.loan} is due December 21st, your balance is KES{self.balance}"
         else:
-              return "We are unable to process your request. Please try again later." 
-    
+            return f"Your loan request of KES{amount} is unsuccessful because your loan limit is {self.loan_limit} "
