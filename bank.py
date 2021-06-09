@@ -1,3 +1,4 @@
+from datetime import datetime, time
 class Bank:
     name= "Bank of Africa"
 
@@ -6,24 +7,34 @@ class Bank:
         self.accountNumber= accountNumber
         self.accountType= accountType
         self.branch= branch
+        self.transaction= [];
 
     def withdraw(self):
         return f"I went to the bank and was told to provide my id which was {self.id} and my account number which was{self.accountNumber} they then asked me if I would like to open a {self.accountType} in the {self.branch} branch "
     def deposit(self):
+        
         return f"She went to the bank branch in {self.branch} she was told to provide her account number which is{self.accountNumber} and her id which is {self.id} she was then told to open a{self.accountType}"
 class Account: 
-    def __init__(self,name,phone):
+    def __init__(self,name,phone,transactions):
         self.name=name
         self.phone=phone
         self.balance=0
         self.loan=0
         self.loan_limit=500
+        self.transactions= [];
+
 
     def deposit(self,amount):
         if amount<=0:
             return f"Amount must be greater than 0."  
         else:
             self.balance+=amount
+            transaction= {"amount": amount,
+                      "balance": self.balance,
+                      "time": datetime.now(),
+                      "narration": "Deposited"}
+            self.transactions.append(transaction)
+       
             return f"Dear {self.name} you have deposited {amount},your new balance is KSH{self.balance}"
     def show_balance(self):
         return self.balance
@@ -43,3 +54,25 @@ class Account:
             return f"Dear {self.name}, you have borrowed KES{amount}.Your loan of {self.loan} is due December 21st, your balance is KES{self.balance}"
         else:
             return f"Your loan request of KES{amount} is unsuccessful because your loan limit is {self.loan_limit} "
+
+    def get_statement(self):
+        for transaction in self.transactions:
+            narration = transaction["narration"]
+            amount = transaction["amount"]
+            balance = transaction["balance"]
+            time = transaction["time"]
+            print(f'{time.strftime("%D")} date of transaction. {narration} to your account, is the amount {amount} and now your balance is {balance}')
+            
+  
+    def repay_loan(self,amount):
+          if(amount)<0:
+              return f"Dear {self.name} you have been loaned an amount of {amount} your new balance is {self.balance}"
+
+          elif  amount<self.loan:
+              self.loan-=amount
+              return f"Dear customer,you have paid your debt of {amount} your outstanding debt is {self.loan} "
+          else:
+              difference=amount-self.loan
+              self.balance+=difference
+              return f"Dear customer, you have succesfully paid your loan of {self.loan}, your new balance is{self.balance}"
+         
