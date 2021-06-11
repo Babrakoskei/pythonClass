@@ -125,7 +125,7 @@ class MobilemoneyAccount(Account):
     except TypeError:
         return f"The amount must be in figures" 
     if amount<0:
-      return 'figures should not be positive' 
+      return 'figures should not be negative' 
     elif amount>self.balance:
       return "You have insufficient credit to make purchase "
     else:
