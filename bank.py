@@ -65,7 +65,7 @@ class Account:
             
   
     def repay_loan(self,amount):
-          if(amount)<0:
+          if amount >0:
               return f"Dear {self.name} you have been loaned an amount of {amount} your new balance is {self.balance}"
 
           elif  amount<self.loan:
